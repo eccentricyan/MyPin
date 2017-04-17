@@ -4,6 +4,7 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.eccentricyan.mypin.common.migration.Migration;
 import com.facebook.stetho.Stetho;
+import com.pinterest.android.pdk.PDKClient;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -12,6 +13,7 @@ import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+import static android.provider.UserDictionary.Words.APP_ID;
 import static com.eccentricyan.mypin.common.defines.Defines.CONSUMER_KEY;
 import static com.eccentricyan.mypin.common.defines.Defines.CONSUMER_SECRET;
 import static com.eccentricyan.mypin.common.defines.Defines.DB_VERSION;
@@ -45,6 +47,7 @@ public class MyApplication extends Application {
                         .build());
         initTwitterClient();
         initCrashlytics();
+        initPinterest();
     }
 
     private void initTwitterClient() {
@@ -60,6 +63,11 @@ public class MyApplication extends Application {
 
         // Initialize Fabric with the debug-disabled crashlytics.
         Fabric.with(this, crashlyticsKit, new Crashlytics());
+    }
+
+    private void initPinterest() {
+        PDKClient.configureInstance(this, APP_ID);
+        PDKClient.getInstance().onConnect(this);
     }
 
     public static MyApplication getInstance() {

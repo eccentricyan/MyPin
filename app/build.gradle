@@ -110,6 +110,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+    compile project(':pdk')
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'realm-android'
