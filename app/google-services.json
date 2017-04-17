@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "820489073309",
+    "project_id": "mypin-c2b90"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820489073309:android:933c672045c6994d",
+        "android_client_info": {
+          "package_name": "com.eccentricyan.mypin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp_uBEEZCDV6gATfW27DWwseNTnnQgdas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
