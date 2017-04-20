@@ -18,18 +18,19 @@ public class PDKPin extends PDKModel {
     private PDKUser user;
     private String link;
     private String note;
-    private String metadata;
+    private Metadata metadata;
     private Date createdAt;
     private Integer likeCount;
     private Integer commentCount;
     private Integer repinCount;
     private String imageUrl;
+    public Image image;
 
     public static PDKPin makePin(Object obj) {
         PDKPin pin = new PDKPin();
         try {
             if (obj instanceof JSONObject) {
-                JSONObject dataObj = (JSONObject)obj;
+                JSONObject dataObj = (JSONObject) obj;
                 if (dataObj.has("id")) {
                     pin.setUid(dataObj.getString("id"));
                 }
@@ -39,9 +40,9 @@ public class PDKPin extends PDKModel {
                 if (dataObj.has("note")) {
                     pin.setNote(dataObj.getString("note"));
                 }
-                if (dataObj.has("metadata")) {
-                   pin.setMetadata(dataObj.get("metadata").toString());
-                }
+//                if (dataObj.has("metadata")) {
+//                    pin.setMetadata(dataObj.getJSONObject("metadata"));
+//                }
                 if (dataObj.has("counts")) {
                     JSONObject countsObj = dataObj.getJSONObject("counts");
                     if (countsObj.has("likes")) {
@@ -54,9 +55,9 @@ public class PDKPin extends PDKModel {
                         pin.setRepinCount(countsObj.getInt("repins"));
                     }
                 }
-                if (dataObj.has("metadata")) {
-                    pin.setMetadata(dataObj.getString("metadata"));
-                }
+//                if (dataObj.has("metadata")) {
+//                    pin.setMetadata(dataObj.getString("metadata"));
+//                }
                 if (dataObj.has("creator")) {
                     PDKUser.makeUser(dataObj.getJSONObject("creator"));
                 }
@@ -65,14 +66,14 @@ public class PDKPin extends PDKModel {
                 }
                 if (dataObj.has("created_at")) {
                     pin.setCreatedAt(
-                        Utils.getDateFormatter().parse(dataObj.getString("created_at")));
+                            Utils.getDateFormatter().parse(dataObj.getString("created_at")));
                 }
                 if (dataObj.has("image")) {
                     JSONObject imageObj = dataObj.getJSONObject("image");
                     Iterator<String> keys = imageObj.keys();
 
                     //TODO: for now we'll have just one image map. We will change this logic after appathon
-                    while(keys.hasNext()) {
+                    while (keys.hasNext()) {
                         String key = keys.next();
                         if (imageObj.get(key) instanceof JSONObject) {
                             JSONObject iObj = imageObj.getJSONObject(key);
@@ -96,7 +97,7 @@ public class PDKPin extends PDKModel {
         try {
             if (obj instanceof JSONArray) {
 
-                JSONArray jAarray = (JSONArray)obj;
+                JSONArray jAarray = (JSONArray) obj;
                 int size = jAarray.length();
                 for (int i = 0; i < size; i++) {
                     JSONObject dataObj = jAarray.getJSONObject(i);
@@ -130,7 +131,7 @@ public class PDKPin extends PDKModel {
         return note;
     }
 
-    public String getMetadata() {
+    public Metadata getMetadata() {
         return metadata;
     }
 
@@ -175,7 +176,7 @@ public class PDKPin extends PDKModel {
         this.note = note;
     }
 
-    public void setMetadata(String metadata) {
+    public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 

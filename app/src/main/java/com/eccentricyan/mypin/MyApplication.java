@@ -13,7 +13,7 @@ import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-import static android.provider.UserDictionary.Words.APP_ID;
+import static com.eccentricyan.mypin.common.defines.Defines.APP_ID;
 import static com.eccentricyan.mypin.common.defines.Defines.CONSUMER_KEY;
 import static com.eccentricyan.mypin.common.defines.Defines.CONSUMER_SECRET;
 import static com.eccentricyan.mypin.common.defines.Defines.DB_VERSION;

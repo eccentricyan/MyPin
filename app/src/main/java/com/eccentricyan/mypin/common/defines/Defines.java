@@ -12,7 +12,7 @@ import okhttp3.Cache;
 
 
     public class Defines {
-        public static final String SITE_URL = "http://menthas.com";
+        public static final String SITE_URL = "https://api.pinterest.com/v1/";
         public static final String BR = System.getProperty("line.separator");
         public static final String OS_NAME = "Android";
         public static final boolean SINGLE_ACCOUNT_MODE = false;
@@ -31,6 +31,12 @@ import okhttp3.Cache;
         public static final int PERMISSION_REQUEST_CAMERA = 300;
         public static final int REQUEST_CODE_ACTIVITY_CAMERA = 300;
 
+        public static final String AUTH_TOKEN_TYPE = "com.eccentricyan.mypin.token";
+        public static final String ACCOUNT_TYPE = "com.eccentricyan.mypin";
+        public static final String APP_ID = "4831912465512017231";
 
-    }
+        public static final String USER_FIELDS = "id,username,first_name,last_name,bio,created_at,counts,image";
+        public static final String PIN_FIELDS = "image,url,color,note,metadata,link,creator";
+
+}
 

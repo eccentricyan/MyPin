@@ -1,14 +1,18 @@
 package com.eccentricyan.mypin.di.module;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.util.Log;
 
 import com.eccentricyan.mypin.Application;
+import com.eccentricyan.mypin.MyApplication;
 import com.eccentricyan.mypin.common.utils.NetUtils;
 import com.eccentricyan.mypin.di.scope.ApplicationScope;
 import com.eccentricyan.mypin.infra.api.RestfulApi;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pinterest.android.pdk.PDKClient;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -26,6 +30,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.provider.UserDictionary.Words.APP_ID;
+import static com.eccentricyan.mypin.common.defines.Defines.ACCOUNT_TYPE;
+import static com.eccentricyan.mypin.common.defines.Defines.AUTH_TOKEN_TYPE;
 import static com.eccentricyan.mypin.common.defines.Defines.CACHE;
 import static com.eccentricyan.mypin.common.defines.Defines.SITE_URL;
 
@@ -104,7 +111,32 @@ public class ApplicationModule {
 
     @Provides
     public Boolean isOnline() {
-        return NetUtils.checkNet(Application.getInstance());
+        return NetUtils.checkNet(MyApplication.getInstance());
+    }
+
+    @Provides
+    @ApplicationScope
+    public PDKClient pdkClient() {
+        return PDKClient.getInstance();
+    }
+
+    @Provides
+    @ApplicationScope
+    public String token() {
+        String _token = "";
+        AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
+        Account[] accounts = accountManager.getAccountsByType(ACCOUNT_TYPE);
+        if (accounts.length != 0) {
+            _token = accountManager.peekAuthToken(accounts[0],
+                    AUTH_TOKEN_TYPE);
+        }
+        return _token == null ? "" : _token;
+    }
+
+    @Provides
+    @ApplicationScope
+    public AccountManager accountManager() {
+        return AccountManager.get(Application.getInstance());
     }
 
 }

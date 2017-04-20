@@ -1,11 +1,13 @@
 package com.eccentricyan.mypin.presentation.base;
 
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.databinding.BaseObservable;
 
 import com.eccentricyan.mypin.di.component.ActivityComponent;
 import com.eccentricyan.mypin.infra.api.RestfulApi;
 import com.google.gson.Gson;
+import com.pinterest.android.pdk.PDKClient;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -38,6 +40,12 @@ public class BaseViewModel extends BaseObservable {
     protected Realm realm;
     @Inject
     protected Scheduler subscribeScheduler;
+    @Inject
+    protected AccountManager accountManager;
+    @Inject
+    public PDKClient pdkClient;
+    @Inject
+    public String token;
 
 
     public BaseViewModel(ActivityComponent component) {

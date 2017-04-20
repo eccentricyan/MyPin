@@ -1,5 +1,6 @@
 package com.eccentricyan.mypin.presentation.base;
 
+import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -11,6 +12,7 @@ import com.eccentricyan.mypin.R;
 import com.eccentricyan.mypin.di.component.ActivityComponent;
 import com.eccentricyan.mypin.di.module.ActivityModule;
 import com.google.gson.Gson;
+import com.pinterest.android.pdk.PDKClient;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +37,13 @@ public class  BaseActivity extends RxAppCompatActivity {
     @Inject
     protected Realm realm;
     @Inject
-    CompositeDisposable compositeDisposable;
+    public CompositeDisposable compositeDisposable;
+    @Inject
+    public AccountManager accountManager;
+    @Inject
+    public PDKClient pdkClient;
+    @Inject
+    public String token;
 
     @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
