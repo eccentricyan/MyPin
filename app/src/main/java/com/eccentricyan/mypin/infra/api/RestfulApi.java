@@ -28,5 +28,8 @@ public interface RestfulApi {
                                          @Path("model_id")String model_id,
                                          @Path("targets")String targets,
                                          @Nullable @QueryMap(encoded=true) Map<String, String> options);
+    @GET("me/{targets}/")
+    Observable<JsonObject> searchMyTargets(@Path("targets")String targets,
+                                         @Nullable @QueryMap(encoded=true) Map<String, String> options);
 }
 

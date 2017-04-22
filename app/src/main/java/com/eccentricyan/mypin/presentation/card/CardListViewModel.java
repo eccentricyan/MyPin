@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.eccentricyan.mypin.common.command.ReplyCommand;
 import com.eccentricyan.mypin.di.component.ActivityComponent;
+import com.eccentricyan.mypin.domain.entities.Page;
 import com.eccentricyan.mypin.presentation.base.BaseViewModel;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -32,7 +33,7 @@ import static com.eccentricyan.mypin.common.defines.Defines.PIN_FIELDS;
 
 public class CardListViewModel extends BaseViewModel{
     @State
-    public int page;
+    public String cursor;
     @State
     public ObservableInt progressVisibility;
     @State
@@ -41,7 +42,7 @@ public class CardListViewModel extends BaseViewModel{
     public ObservableInt infoTextVisibility;
 
     Map<String, String> data = new HashMap<>();
-    public String q;
+
     public ObservableBoolean isRefreshing = new ObservableBoolean(false);
 
     public CardListViewModel(ActivityComponent component) {
@@ -49,9 +50,7 @@ public class CardListViewModel extends BaseViewModel{
         progressVisibility = new ObservableInt(View.INVISIBLE);
         recyclerViewVisibility = new ObservableInt(View.INVISIBLE);
         infoTextVisibility = new ObservableInt(View.VISIBLE);
-//        data.put("page", String.valueOf(this.page));
         data.put("fields", PIN_FIELDS);
-        Log.e("tokenn", token);
         data.put("access_token", token);
         loadCards(data, false);
     }
@@ -62,14 +61,12 @@ public class CardListViewModel extends BaseViewModel{
         recyclerViewVisibility.set(View.INVISIBLE);
         infoTextVisibility.set(View.INVISIBLE);
         Log.e("data", data.toString());
-        Observable<JsonObject> observable = api.searchTargets("boards", "kechoes87/ドレス" , "pins", data);
+        Observable<JsonObject> observable = api.searchMyTargets("pins", data);
         compositeDisposable.add(
                 observable
                         .map(jsonObject -> {
                             Log.e("jsonObject", jsonObject.toString());
-
-//                            page = (gson.fromJson(jsonObject.get("meta"), Meta.class)).getCurrentPage();
-//                            return PDKPin.makePinList(new JSONObject(jsonObject.get("data").toString()));
+                            cursor = gson.fromJson(jsonObject.get("page"), Page.class).cursor;
                             return (List<PDKPin>)gson.fromJson(jsonObject.get("data"), new TypeToken<List<PDKPin>>(){}.getType());
                         })
                         .compose(lifecycleProvider.bindToLifecycle())
@@ -91,16 +88,15 @@ public class CardListViewModel extends BaseViewModel{
                                 },
                                 () -> {
                                     isRefreshing.set(false);
-                                    page++;
                                 }));
     }
 
     public final ReplyCommand<Integer> onLoadMoreCommand = new ReplyCommand(new Action(){
         @Override
         public void run() {
-//            if (isRefreshing.get()) return;
-//            data.put("page", String.valueOf(page++));
-//            loadCards(data, false);
+            if (isRefreshing.get()) return;
+            data.put("cursor", cursor);
+            loadCards(data, false);
         }
     });
 
@@ -108,7 +104,7 @@ public class CardListViewModel extends BaseViewModel{
         @Override
         public void run() {
             if (isRefreshing.get()) return;
-            page = 1;
+            data.remove("cursor");
             loadCards(data, true);
         }
     });

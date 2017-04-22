@@ -37,7 +37,7 @@ public class CardViewModel extends BaseViewModel {
 
     @Bindable
     public String getUsername() {
-        return pin.getUser().getUsername();
+        return pin.creator.getFirstName();
     }
     @Bindable
     public String getLink() {

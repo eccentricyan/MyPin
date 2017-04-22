@@ -25,6 +25,7 @@ public class PDKPin extends PDKModel {
     private Integer repinCount;
     private String imageUrl;
     public Image image;
+    public PDKUser creator;
 
     public static PDKPin makePin(Object obj) {
         PDKPin pin = new PDKPin();
